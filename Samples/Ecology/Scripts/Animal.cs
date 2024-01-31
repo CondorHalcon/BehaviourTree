@@ -33,6 +33,7 @@ namespace CondorHalcon.BehaviourTree.Samples.Ecology
         private void Start()
         {
             // Blackboard
+            blackboard = new Blackboard();
             BlackboardKey<float> k_sightDistance = new BlackboardKey<float>("SightDistance", sightDistance);
             BlackboardKey<float> k_sightAngle = new BlackboardKey<float>("SightAngle", sightAngle);
             BlackboardKey<float> k_smellDistance = new BlackboardKey<float>("SmellDistance", smellDistance);

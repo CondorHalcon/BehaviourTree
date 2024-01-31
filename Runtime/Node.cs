@@ -7,6 +7,12 @@ namespace CondorHalcon.BehaviourTree
         protected NodeState state { get; private set; }
         protected bool hasStarted = false;
 
+        public Node()
+        {
+            state = NodeState.Running;
+            hasStarted = false;
+        }
+
         /// <summary>
         /// Call to run the node.
         /// </summary>

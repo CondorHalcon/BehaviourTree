@@ -29,7 +29,7 @@ namespace CondorHalcon.BehaviourTree.Samples.Ecology
 
 
             transform.LookAt(location.value);
-            transform.Translate(Vector3.forward * speed.value, Space.Self);
+            transform.position += transform.TransformVector(Vector3.forward * speed.value * Time.deltaTime);
 
             if (Vector3.Distance(location.value, transform.position) < 1) { return NodeState.Success; }
             else { return NodeState.Running; }

@@ -6,7 +6,12 @@ namespace CondorHalcon.BehaviourTree
     [System.Serializable]
     public sealed class Blackboard
     {
-        public List<BlackboardKey> keys = new List<BlackboardKey>();
+        public List<BlackboardKey> keys;
+
+        public Blackboard()
+        {
+            keys = new List<BlackboardKey>();
+        }
 
         public void Add(BlackboardKey key) => keys.Add(key);
         public void Remove(BlackboardKey key) => keys.Remove(key);
