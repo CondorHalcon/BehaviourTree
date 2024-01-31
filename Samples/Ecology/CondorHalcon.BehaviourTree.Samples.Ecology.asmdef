@@ -1,0 +1,16 @@
+{
+    "name": "CondorHalcon.BehaviourTree.Samples.Ecology",
+    "rootNamespace": "CondorHalcon.BehaviourTree.Samples.Ecology",
+    "references": [
+        "GUID:86b37ac1fd3ae234aad08c35481c3966"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -8,7 +8,7 @@ namespace CondorHalcon.BehaviourTree
         protected bool hasStarted = false;
 
         /// <summary>
-        /// Called to run the node.
+        /// Call to run the node.
         /// </summary>
         /// <returns></returns>
         public NodeState Update()
@@ -21,13 +21,18 @@ namespace CondorHalcon.BehaviourTree
 
             state = OnUpdate();
 
-            if (state != NodeState.Running)
-            {
-                OnStop();
-                hasStarted = false;
-            }
+            if (state != NodeState.Running) { Terminate(); }
 
             return state;
+        }
+
+        /// <summary>
+        /// Call to cleanly stop running the node
+        /// </summary>
+        public void Terminate()
+        {
+            OnStop();
+            hasStarted = false;
         }
 
         /// <summary>
@@ -36,7 +41,7 @@ namespace CondorHalcon.BehaviourTree
         protected abstract void OnStart();
 
         /// <summary>
-        /// Called when the node stops (Fail or Success)
+        /// Called when the node stops (Fail, Success, and Terminate)
         /// </summary>
         protected abstract void OnStop();
 
