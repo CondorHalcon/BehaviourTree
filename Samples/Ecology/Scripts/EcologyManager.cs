@@ -6,22 +6,27 @@ namespace CondorHalcon.BehaviourTree.Samples.Ecology
 {
     public class EcologyManager : MonoBehaviour
     {
-        public Transform plantlifeT;
+        [Range(25, 100)] public float worldSize = 50;
 
         [Header("Plants")]
-        [Range(10, 50)] public int plantCount = 25;
-        [Range(.1f, 1f)] public float treeChance = .1f;
+        public Transform plantlifeT;
         public GameObject bushPrefab;
         public GameObject treePrefab;
+        [Range(10, 50)] public int plantCount = 25;
+        [Range(.1f, 1f)] public float treeChance = .1f;
 
-        [ContextMenu("Generate Plants")]
-        public void GeneratePlates()
+        public void Start ()
+        {
+            GeneratePlants();
+        }
+
+        public void GeneratePlants()
         {
             if (plantlifeT == null) { plantlifeT = new GameObject("Plants").transform; }
 
             for (int i = 0; i < plantCount; i++)
             {
-                Vector3 pos = new Vector3(Random.Range(-25, 25), 0, Random.Range(-25, 25));
+                Vector3 pos = new Vector3(Random.Range(-worldSize, worldSize), 0, Random.Range(-worldSize, worldSize));
                 if (Chance(treeChance)) { Instantiate(treePrefab, pos, Quaternion.identity, plantlifeT); }
                 else { Instantiate(bushPrefab, pos, Quaternion.identity, plantlifeT); }
             }

@@ -8,6 +8,9 @@ namespace CondorHalcon.BehaviourTree
     {
         public List<BlackboardKey> keys = new List<BlackboardKey>();
 
+        public void Add(BlackboardKey key) => keys.Add(key);
+        public void Remove(BlackboardKey key) => keys.Remove(key);
+
         /// <summary>
         /// Finds the first key in the blackboard which matches keyName
         /// </summary>
