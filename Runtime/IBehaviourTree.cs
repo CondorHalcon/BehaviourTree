@@ -5,5 +5,7 @@ namespace CondorHalcon.BehaviourTree
     {
         public Blackboard Blackboard { get; }
         public RootNode RootNode { get; set; }
+
+        public void BehaviourTree();
     }
 }

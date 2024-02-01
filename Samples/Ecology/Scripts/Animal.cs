@@ -30,32 +30,41 @@ namespace CondorHalcon.BehaviourTree.Samples.Ecology
         public RootNode RootNode { get { return rootNode; } set { rootNode = value; } }
         #endregion
 
-        private void Start()
+        public void BehaviourTree()
         {
             // Blackboard
             blackboard = new Blackboard();
+            BlackboardKey<Vector3> k_homePosition = new BlackboardKey<Vector3>("HomePosition", transform.position);
+            BlackboardKey<Vector3> k_targetLocation = new BlackboardKey<Vector3>("TargetLocation", Vector3.zero);
+            blackboard.Add(k_homePosition);
+            blackboard.Add(k_targetLocation);
             BlackboardKey<float> k_sightDistance = new BlackboardKey<float>("SightDistance", sightDistance);
             BlackboardKey<float> k_sightAngle = new BlackboardKey<float>("SightAngle", sightAngle);
             BlackboardKey<float> k_smellDistance = new BlackboardKey<float>("SmellDistance", smellDistance);
+            BlackboardKey<List<Lifeform>> k_sensed = new BlackboardKey<List<Lifeform>>("Sensed");
             blackboard.Add(k_sightDistance);
             blackboard.Add(k_sightAngle);
             blackboard.Add(k_smellDistance);
+            blackboard.Add(k_sensed);
             BlackboardKey<float> k_speed = new BlackboardKey<float>("Speed", speed);
             blackboard.Add(k_speed);
             BlackboardKey<Diet> k_diet = new BlackboardKey<Diet>("Diet", diet);
             blackboard.Add(k_diet);
-            BlackboardKey<Vector3> k_homePosition = new BlackboardKey<Vector3>("HomePosition", transform.position);
-            BlackboardKey<Vector3> k_targetLocation = new BlackboardKey<Vector3>("TargetLocation", Vector3.zero);
-            blackboard.Add(k_homePosition);
 
             // BehaviourTree
             this.rootNode = new RootNode();
             SequenceNode mainSequence = new SequenceNode();
             rootNode.child = mainSequence;
-            GoToLocation goL = new GoToLocation(transform, k_targetLocation, k_speed);
-            mainSequence.Add(goL);
+            Senses senses = new Senses(transform, k_sightDistance, k_sightAngle, k_smellDistance);
+            GoToLocation goToLocation = new GoToLocation(transform, k_targetLocation, k_speed);
+            mainSequence.Add(senses);
+            mainSequence.Add(goToLocation);
         }
 
+        private void Start()
+        {
+            BehaviourTree();
+        }
         private void Update()
         {
             rootNode.Update();
