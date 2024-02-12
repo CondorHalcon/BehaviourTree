@@ -31,6 +31,10 @@ namespace CondorHalcon.BehaviourTree.Samples.Ecology
                 else { Instantiate(bushPrefab, pos, Quaternion.identity, plantlifeT); }
             }
         }
+        public void GenerateAnimals()
+        {
+
+        }
 
         private bool Chance(float percent)
         {

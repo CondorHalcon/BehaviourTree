@@ -6,32 +6,51 @@ namespace CondorHalcon.BehaviourTree.Samples.Ecology
 {
     public class Senses : NodeAction
     {
-        protected Transform transform;
-        protected BlackboardKey<float> sightDistance;
-        protected BlackboardKey<float> sightAngle;
-        protected BlackboardKey<float> smellDistance;
-        protected BlackboardKey<List<Lifeform>> sensed;
+        protected Animal self;
+        protected BlackboardKey<SenseStats> stats;
+        protected BlackboardKey<List<Plant>> plants;
+        protected BlackboardKey<Animal> threat;
+        protected BlackboardKey<Animal> kin;
         Lifeform[] lifeforms;
         int index = 0;
 
-        public Senses(Transform transform, BlackboardKey<float> sightDistance, BlackboardKey<float> sightAngle, BlackboardKey<float> smellDistance)
+        public Senses(Animal self, BlackboardKey<SenseStats> stats)
         {
-            this.transform = transform;
-            this.sightDistance = sightDistance;
-            this.sightAngle = sightAngle;
-            this.smellDistance = smellDistance;
+            this.self = self;
+            this.stats = stats;
         }
         private bool Chance(float percent)
         {
             float num = Random.Range(0f, 1f);
             return num < percent;
         }
+        private void Evaluate(Lifeform lifeform)
+        {
+            if (lifeform.GetType() == typeof(Animal))
+            {
+                Animal animal = (Animal)lifeform;
+                if (animal.species == self.species && kin.value)
+                {
+                    if (!kin.value) { kin.value = animal; return; }
+                    kin.value = Vector3.Distance(kin.value.transform.position, self.transform.position) <= Vector3.Distance(animal.transform.position, self.transform.position) ? kin.value : animal;
+                }
+                else if (animal.species.diet != Diet.Herbivore)
+                {
+                    if (!threat.value) { threat.value = animal; return; }
+                    threat.value = Vector3.Distance(threat.value.transform.position, self.transform.position) <= Vector3.Distance(animal.transform.position, self.transform.position) ? threat.value : animal;
+                }
+            }
+            else if (lifeform.GetType() == typeof(Plant))
+            {
+                plants.value.Add((Plant)lifeform);
+            }
+        }
+
         protected override void OnStart()
         {
             lifeforms = Object.FindObjectsOfType<Lifeform>();
             index = 0;
         }
-
         protected override void OnStop() { }
 
         protected override NodeState OnUpdate()
@@ -39,22 +58,22 @@ namespace CondorHalcon.BehaviourTree.Samples.Ecology
             // would prefer a while loop, but Unity will crash
             for (int i = index; i < lifeforms.Length; i++)
             {
-                if (lifeforms[i].transform == transform) { continue; }
-                if (Vector3.Distance(lifeforms[i].transform.position, transform.position) <= smellDistance.value)
+                if (lifeforms[i].transform == self.transform) { continue; }
+                if (Vector3.Distance(lifeforms[i].transform.position, self.transform.position) <= stats.value.smellDistance)
                 {
                     if (Chance(.7f * Time.deltaTime)) // 30% per second chance they are not detected
                     {
-                        sensed.value.Add(lifeforms[i]);
+                        Evaluate(lifeforms[i]);
                         continue; // has already been sensed, no need to check sight
                     }
                 }
-                if (Vector3.Distance(lifeforms[i].transform.position, transform.position) <= sightDistance.value)
+                if (Vector3.Distance(lifeforms[i].transform.position, self.transform.position) <= stats.value.sightDistance)
                 {
-                    Vector3 vector = lifeforms[i].transform.position - transform.position;
-                    float dot = Vector3.Dot(transform.forward, vector.normalized);
-                    if (dot <= sightAngle.value)
+                    Vector3 vector = lifeforms[i].transform.position - self.transform.position;
+                    float dot = Vector3.Dot(self.transform.forward, vector.normalized);
+                    if (dot <= stats.value.sightAngle)
                     {
-                        sensed.value.Add(lifeforms[i]);
+                        Evaluate(lifeforms[i]);
                     }
                 }
                 index++;

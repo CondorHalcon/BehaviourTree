@@ -6,15 +6,15 @@ namespace CondorHalcon.BehaviourTree.Samples.Ecology
 {
     public class GoToLocation : NodeAction
     {
-        protected Transform transform;
+        protected Animal self;
         protected BlackboardKey<Vector3> location;
-        protected BlackboardKey<float> speed;
+        protected BlackboardKey<PhysicalStats> physicalStats;
 
-        public GoToLocation(Transform transform, BlackboardKey<Vector3> location, BlackboardKey<float> speed)
+        public GoToLocation(Animal self, BlackboardKey<Vector3> location, BlackboardKey<PhysicalStats> physicalStats)
         {
-            this.transform = transform;
+            this.self = self;
             this.location = location;
-            this.speed = speed;
+            this.physicalStats = physicalStats;
         }
 
         protected override void OnStart()
@@ -25,13 +25,13 @@ namespace CondorHalcon.BehaviourTree.Samples.Ecology
 
         protected override NodeState OnUpdate()
         {
-            if (transform == null || location == null) { return NodeState.Failure; }
+            if (self.transform == null || location == null) { return NodeState.Failure; }
 
 
-            transform.LookAt(location.value);
-            transform.position += transform.TransformVector(Vector3.forward * speed.value * Time.deltaTime);
+            self.transform.LookAt(location.value);
+            self.transform.position += self.transform.TransformVector(Vector3.forward * physicalStats.value.speed * Time.deltaTime);
 
-            if (Vector3.Distance(location.value, transform.position) < 1) { return NodeState.Success; }
+            if (Vector3.Distance(location.value, self.transform.position) < 1) { return NodeState.Success; }
             else { return NodeState.Running; }
         }
     }
