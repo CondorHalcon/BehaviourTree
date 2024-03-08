@@ -1,7 +1,14 @@
+using System.Collections.Generic;
+
 namespace CondorHalcon.BehaviourTree
 {
     public class InverterNode : NodeComposite
     {
+        public InverterNode(List<Node> children) : base(children)
+        {
+            this.maxChildren = 1;
+        }
+
         protected override void OnStart()
         {
 
@@ -14,9 +21,6 @@ namespace CondorHalcon.BehaviourTree
 
         protected override NodeState OnUpdate()
         {
-            // fail if there are no children
-            if (children.Count == 0 || children.Count > 1) { return NodeState.Failure; }
-            
             switch (children[0].Update())
             {
                 case NodeState.Success:

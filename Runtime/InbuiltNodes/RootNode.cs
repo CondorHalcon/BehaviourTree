@@ -5,6 +5,11 @@ namespace CondorHalcon.BehaviourTree
     {
         public Node child;
 
+        public RootNode(Node child)
+        {
+            this.child = child;
+        }
+
         protected override void OnStart() { }
 
         protected override void OnStop() { }

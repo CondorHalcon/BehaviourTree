@@ -25,7 +25,8 @@ namespace CondorHalcon.BehaviourTree
                 OnStart();
             }
 
-            state = OnUpdate();
+            if (IsValid()) { state = OnUpdate(); }
+            else { state = NodeState.Failure; }
 
             if (state != NodeState.Running) { Terminate(); }
 
@@ -40,9 +41,10 @@ namespace CondorHalcon.BehaviourTree
             OnStop();
             hasStarted = false;
         }
+        internal virtual bool IsValid() => true;
 
         /// <summary>
-        /// Called when the node runs for the first time after it stopped
+        /// Called when the node runs for the first time or after it stopped
         /// </summary>
         protected abstract void OnStart();
 

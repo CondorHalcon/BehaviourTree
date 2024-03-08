@@ -1,18 +1,16 @@
+using System.Collections.Generic;
+
 namespace CondorHalcon.BehaviourTree
 {
     public class SelectorNode : NodeComposite
     {
-        public BlackboardKey<bool> condition;
+        private int currentIndex = 0;
 
-        public SelectorNode(BlackboardKey<bool> condition)
-        {
-            this.condition = condition;
-            this.maxChildren = 2;
-        }
+        public SelectorNode(List<Node> children) : base(children) { }
 
         protected override void OnStart()
         {
-            
+            currentIndex = 0;
         }
 
         protected override void OnStop()
@@ -23,17 +21,21 @@ namespace CondorHalcon.BehaviourTree
         protected override NodeState OnUpdate()
         {
             // fail if there are no children
-            if (children.Count == 0) { return NodeState.Failure; }
-            // fail if there are more than 2 children
-            else if (children.Count > 2) { return NodeState.Failure; }
-            // update child if there is only one
-            else if (children.Count == 1 && condition.value) { return children[0].Update(); }
-            // select which child to update
-            else
+            if (children.Count < 1) { return NodeState.Failure; }
+
+            switch (children[currentIndex].Update())
             {
-                if (condition.value) { return children[0].Update(); }
-                else { return children[1].Update(); }
+                case NodeState.Running:
+                    return NodeState.Running;
+                case NodeState.Success:
+                    return NodeState.Success;
+                default:
+                    break;
             }
+            // current child failed, iterate to next child
+            currentIndex++;
+            if (currentIndex >= children.Count) { return NodeState.Failure; }
+            return NodeState.Running;
         }
     }
 }

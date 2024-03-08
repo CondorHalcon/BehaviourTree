@@ -1,16 +1,21 @@
-using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace CondorHalcon.BehaviourTree
 {
     [System.Serializable]
     public sealed class Blackboard
     {
+        public static Blackboard globalBlackboard = new Blackboard();
         public List<BlackboardKey> keys;
 
         public Blackboard()
         {
             keys = new List<BlackboardKey>();
+        }
+        public Blackboard(List<BlackboardKey> keys)
+        {
+            this.keys = keys;
         }
 
         public void Add(BlackboardKey key) => keys.Add(key);
@@ -37,18 +42,18 @@ namespace CondorHalcon.BehaviourTree
             var foundKey = Find(keyName);
 
             if (foundKey == null) {
-                Console.WriteLine($"Failed to find blackboard key, invalid keyname:{keyName}");
+                Debug.LogError($"Failed to find blackboard key, invalid keyname:{keyName}");
                 return null;
             }
 
             if (foundKey.type != typeof(T)) {
-                Console.WriteLine($"Failed to find blackboard key, invalid keytype:{typeof(T)}, Expected:{foundKey.type}");
+                Debug.LogError($"Failed to find blackboard key, invalid keytype:{typeof(T)}, Expected:{foundKey.type}");
                 return null;
             }
 
             var foundKeyTyped = foundKey as BlackboardKey<T>;
             if (foundKeyTyped == null) {
-                Console.WriteLine($"Failed to find blackboard key, casting failed:{typeof(T)}, Expected:{foundKey.type}");
+                Debug.LogError($"Failed to find blackboard key, casting failed:{typeof(T)}, Expected:{foundKey.type}");
                 return null;
             }
             return foundKeyTyped;

@@ -1,16 +1,18 @@
+using System.Collections.Generic;
+
 namespace CondorHalcon.BehaviourTree
 {
     public class SequenceNode : NodeComposite
     {
         private int currentIndex = 0;
-        public bool stopOnFail = true;
+        private bool stopOnFail = true;
 
-        public SequenceNode()
+        public SequenceNode(List<Node> children) : base(children)
         {
             this.currentIndex = 0;
             this.stopOnFail = true;
         }
-        public SequenceNode(bool stopOnFail) : this()
+        public SequenceNode(bool stopOnFail, List<Node> children) : this(children)
         {
             this.stopOnFail = stopOnFail;
         }
@@ -34,6 +36,8 @@ namespace CondorHalcon.BehaviourTree
                     return NodeState.Running;
                 case NodeState.Failure:
                     if (stopOnFail) { return NodeState.Failure; }
+                    break;
+                default:
                     break;
             }
             // current child done, iterate to next child

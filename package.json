@@ -1,18 +1,17 @@
 {
     "name": "com.condorhalcon.behaviourtree",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "displayName": "Behaviour Tree",
     "description": "This is a Unity C# behaviour tree package meant to be used with Unity MonoBehaviours",
-    "licensesUrl": "https://github.com/thekiwicoder0/UnityBehaviourTreeEditor/blob/main/LICENSE.MD",  
     "keywords": [
-      "BehaviourTree",
-      "Behaviour",
-      "Tree",
-      "CondorHalcon"
+        "BehaviourTree",
+        "Behaviour",
+        "Tree",
+        "CondorHalcon"
     ],
     "author": {
-      "name": "CondorHalcon",
-      "email": "judahhawi@condorhalcon.com",
-      "url": "https://www.condorhalcon.com"
+        "name": "CondorHalcon",
+        "email": "judahhawi@condorhalcon.com",
+        "url": "https://www.condorhalcon.com"
     }
-  }
+}

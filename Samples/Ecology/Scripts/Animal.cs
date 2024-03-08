@@ -23,28 +23,22 @@ namespace CondorHalcon.BehaviourTree.Samples.Ecology
         public void BehaviourTree()
         {
             // Blackboard
-            blackboard = new Blackboard();
-            BlackboardKey<Vector3> k_homePosition = new BlackboardKey<Vector3>("HomePosition", transform.position);
-            BlackboardKey<Vector3> k_targetLocation = new BlackboardKey<Vector3>("TargetLocation", Vector3.zero);
-            blackboard.Add(k_homePosition);
-            blackboard.Add(k_targetLocation);
-            BlackboardKey<Species> k_species = new BlackboardKey<Species>("Diet", species);
-            BlackboardKey<SenseStats> k_senseStats = new BlackboardKey<SenseStats>("SenseStats", senseStats);
-            BlackboardKey<PhysicalStats> k_physcalStats = new BlackboardKey<PhysicalStats>("PhysicalStats", physicalStats);
-            blackboard.Add(k_species);
-            blackboard.Add(k_senseStats);
-            blackboard.Add(k_physcalStats);
-            BlackboardKey<List<Lifeform>> k_sensed = new BlackboardKey<List<Lifeform>>("Sensed");
-            blackboard.Add(k_sensed);
+            blackboard = new Blackboard(new List<BlackboardKey>
+            {
+                new BlackboardKey<Vector3>("HomePosition", transform.position),
+                new BlackboardKey<Vector3>("TargetLocation", Vector3.zero),
+                new BlackboardKey<Species>("Diet", species),
+                new BlackboardKey<SenseStats>("SenseStats", senseStats),
+                new BlackboardKey<PhysicalStats>("PhysicalStats", physicalStats),
+                new BlackboardKey<List<Lifeform>>("Sensed")
+            });
 
             // BehaviourTree
-            this.rootNode = new RootNode();
-            SequenceNode mainSequence = new SequenceNode();
-            rootNode.child = mainSequence;
-            Senses senses = new Senses(this, k_senseStats);
-            GoToLocation goToLocation = new GoToLocation(this, k_targetLocation, k_physcalStats);
-            mainSequence.Add(senses);
-            mainSequence.Add(goToLocation);
+            this.rootNode = new RootNode(new SequenceNode(new List<Node>
+            {
+                new Senses(this, blackboard.Find<SenseStats>("SenseStats")),
+                new GoToLocation(this, blackboard.Find<Vector3>("TargetLocation"), blackboard.Find<PhysicalStats>("PhysicalStats"))
+            }));
         }
 
         private void Start()

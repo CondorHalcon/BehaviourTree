@@ -12,13 +12,16 @@ namespace CondorHalcon.BehaviourTree
 
         public Node this[int index] { get { return children[index]; } set { children[index] = value; } }
 
-        public NodeComposite()
+        public NodeComposite(List<Node> children)
         {
-            this.children = new List<Node>();
+            this.children = (children == null) ? new List<Node>() : children;
             this.minChildren = 1;
-            this.maxChildren = 4294967295;
+            this.maxChildren = int.MaxValue;
         }
-
+        internal override bool IsValid()
+        {
+            return children.Count >= minChildren && children.Count <= maxChildren;
+        }
         public void Add(Node node) 
         {
             children.Add(node);
