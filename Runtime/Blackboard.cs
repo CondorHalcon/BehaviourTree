@@ -58,6 +58,16 @@ namespace CondorHalcon.BehaviourTree
             }
             return foundKeyTyped;
         }
+        /// <summary>
+        /// Finds a key that matches keyName with the type specified
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="keyName"></param>
+        /// <param name="foundKey"></param>
+        public void Find<T>(string keyName, out BlackboardKey<T> foundKey)
+        {
+            foundKey = Find<T>(keyName);
+        }
 
         /// <summary>
         /// Tries to set a key to a value using the type specified.
@@ -70,11 +80,14 @@ namespace CondorHalcon.BehaviourTree
             BlackboardKey<T> key = Find<T>(keyName);
             if (key != null) {
                 key.value = value;
+            } else
+            {
+                keys.Add(new BlackboardKey<T>(keyName, value));
             }
         }
 
         /// <summary>
-        /// Tries to get a key value using the type specified.
+        /// Tries to get a key value using the type specified, if the key doesn't exist, it will return the default value of the specified type.
         /// NOTE: This may fail if the key with the matching name has a different type to the one specified
         /// </summary>
         /// <typeparam name="T"></typeparam>
