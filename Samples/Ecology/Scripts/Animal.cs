@@ -16,9 +16,9 @@ namespace CondorHalcon.BehaviourTree.Samples.Ecology
         public PhysicalStats physicalStats = new PhysicalStats();
 
         protected Blackboard blackboard;
-        protected RootNode rootNode;
+        protected Node rootNode;
         public Blackboard Blackboard { get { return blackboard; } }
-        public RootNode RootNode { get { return rootNode; } set { rootNode = value; } }
+        public Node RootNode { get { return rootNode; } set { rootNode = value; } }
 
         public void BehaviourTree()
         {
@@ -34,11 +34,11 @@ namespace CondorHalcon.BehaviourTree.Samples.Ecology
             });
 
             // BehaviourTree
-            this.rootNode = new RootNode(new SequenceNode(new List<Node>
+            this.rootNode = new SequenceNode(new List<Node>
             {
                 new Senses(this, blackboard.Find<SenseStats>("SenseStats")),
                 new GoToLocation(this, blackboard.Find<Vector3>("TargetLocation"), blackboard.Find<PhysicalStats>("PhysicalStats"))
-            }));
+            });
         }
 
         private void Start()
