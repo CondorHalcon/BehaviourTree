@@ -64,9 +64,10 @@ namespace CondorHalcon.BehaviourTree
         /// <typeparam name="T"></typeparam>
         /// <param name="keyName"></param>
         /// <param name="foundKey"></param>
-        public void Find<T>(string keyName, out BlackboardKey<T> foundKey)
+        public BlackboardKey<T> Find<T>(string keyName, out BlackboardKey<T> foundKey)
         {
             foundKey = Find<T>(keyName);
+            return foundKey;
         }
 
         /// <summary>
