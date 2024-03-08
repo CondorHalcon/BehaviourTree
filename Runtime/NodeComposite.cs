@@ -18,10 +18,7 @@ namespace CondorHalcon.BehaviourTree
             this.minChildren = 1;
             this.maxChildren = int.MaxValue;
         }
-        internal override bool IsValid()
-        {
-            return children.Count >= minChildren && children.Count <= maxChildren;
-        }
+        internal override bool IsValid() => children.Count >= minChildren && children.Count <= maxChildren;
         public void Add(Node node) 
         {
             children.Add(node);

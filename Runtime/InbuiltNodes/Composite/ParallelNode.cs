@@ -35,6 +35,10 @@ namespace CondorHalcon.BehaviourTree
 
         protected override void OnStop()
         {
+            if (state != NodeState.Success)
+            {
+                foreach (Node child in childrenLeftToRun) { child.Terminate(); }
+            }
             childrenLeftToRun.Clear();
         }
 

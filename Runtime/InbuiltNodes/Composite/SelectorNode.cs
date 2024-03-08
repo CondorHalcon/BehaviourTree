@@ -15,7 +15,7 @@ namespace CondorHalcon.BehaviourTree
 
         protected override void OnStop()
         {
-            
+            if (state == NodeState.Running && currentIndex < children.Count) { children[currentIndex].Terminate(); }
         }
 
         protected override NodeState OnUpdate()

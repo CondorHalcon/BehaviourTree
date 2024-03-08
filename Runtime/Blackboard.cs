@@ -7,7 +7,7 @@ namespace CondorHalcon.BehaviourTree
     public sealed class Blackboard
     {
         public static Blackboard globalBlackboard = new Blackboard();
-        public List<BlackboardKey> keys;
+        internal List<BlackboardKey> keys;
 
         public Blackboard()
         {
@@ -18,8 +18,30 @@ namespace CondorHalcon.BehaviourTree
             this.keys = keys;
         }
 
+        public BlackboardKey this[int i] => keys[i];
+        /// <summary>
+        /// Adds a key to the blackboard
+        /// WARNING: Unsafe, use `SetValue<T>(string key, T value)` when possible
+        /// </summary>
+        /// <param name="key"></param>
         public void Add(BlackboardKey key) => keys.Add(key);
         public void Remove(BlackboardKey key) => keys.Remove(key);
+        public void Remove(string keyName)
+        {
+            BlackboardKey key = Find(keyName);
+            if (key != null)
+            {
+                Remove(key);
+            }
+        }
+        public void Remove<T>(string keyName)
+        {
+            BlackboardKey key = Find<T>(keyName);
+            if (key != null)
+            {
+                Remove(key);
+            }
+        }
 
         /// <summary>
         /// Finds the first key in the blackboard which matches keyName
@@ -100,6 +122,18 @@ namespace CondorHalcon.BehaviourTree
                 return key.value;
             }
             return default(T);
+        }
+        /// <summary>
+        /// Tries to get a key value using the type specified, if the key doesn't exist, it will return the default value of the specified type.
+        /// NOTE: This may fail if the key with the matching name has a different type to the one specified
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="keyName"></param>
+        /// <returns></returns>
+        public T GetValue<T>(string keyName, out T value)
+        {
+            value = GetValue<T>(keyName);
+            return value;
         }
     }
 }
