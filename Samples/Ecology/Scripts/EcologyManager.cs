@@ -15,6 +15,9 @@ namespace CondorHalcon.BehaviourTree.Samples.Ecology
         [Range(10, 50)] public int plantCount = 25;
         [Range(.1f, 1f)] public float treeChance = .1f;
 
+        internal List<Animal> animals;
+        internal List<Plant> plants;
+
         public void Start ()
         {
             GeneratePlants();

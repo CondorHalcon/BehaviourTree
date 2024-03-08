@@ -48,7 +48,6 @@ namespace CondorHalcon.BehaviourTree.Samples.Ecology
 
         protected override void OnStart()
         {
-            lifeforms = Object.FindObjectsOfType<Lifeform>();
             index = 0;
         }
         protected override void OnStop() { }
@@ -77,6 +76,7 @@ namespace CondorHalcon.BehaviourTree.Samples.Ecology
                     }
                 }
                 index++;
+                // return out for optimization
                 return NodeState.Running;
             }
             return NodeState.Success;
