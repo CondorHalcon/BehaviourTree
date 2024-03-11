@@ -30,6 +30,14 @@ namespace CondorHalcon.BehaviourTree
             if (children.Count - 1 < minChildren) { throw new TooFewChildrenException(this); }
         }
 
+        public override void DrawGizmos()
+        {
+            foreach (Node child in children)
+            {
+                DrawGizmos();
+            }
+        }
+
         #region Exceptions
         [Serializable]
         internal sealed class TooManyChildrenException : Exception

@@ -4,5 +4,6 @@ namespace CondorHalcon.BehaviourTree
     public abstract class NodeAction : Node
     {
         public NodeAction() : base() { }
+
     }
 }

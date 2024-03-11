@@ -58,5 +58,7 @@ namespace CondorHalcon.BehaviourTree
         /// </summary>
         /// <returns></returns>
         protected abstract NodeState OnUpdate();
+
+        public virtual void DrawGizmos() { }
     }
 }
