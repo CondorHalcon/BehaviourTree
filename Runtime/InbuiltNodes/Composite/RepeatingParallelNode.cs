@@ -51,7 +51,7 @@ namespace CondorHalcon.BehaviourTree
 						continue;
 				}
 			}
-			return NodeState.Failure;
+			return NodeState.Running;
 		}
 	}
 }
