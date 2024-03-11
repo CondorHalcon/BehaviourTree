@@ -34,7 +34,7 @@ namespace CondorHalcon.BehaviourTree
         {
             foreach (Node child in children)
             {
-                DrawGizmos();
+                child.DrawGizmos();
             }
         }
 
