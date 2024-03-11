@@ -68,7 +68,7 @@ namespace CondorHalcon.BehaviourTree
                 return null;
             }
 
-            if (foundKey.type != typeof(T)) {
+            if (foundKey.type is T) {
                 Debug.LogError($"Failed to find blackboard key, invalid keytype:{typeof(T)}, Expected:{foundKey.type}");
                 return null;
             }
