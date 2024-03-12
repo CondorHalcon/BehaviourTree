@@ -17,7 +17,7 @@ namespace CondorHalcon.BehaviourTree
         /// Call to run the node.
         /// </summary>
         /// <returns></returns>
-        public NodeState Update()
+        public virtual NodeState Update()
         {
             if (!hasStarted)
             {
@@ -36,7 +36,7 @@ namespace CondorHalcon.BehaviourTree
         /// <summary>
         /// Call to cleanly stop running the node
         /// </summary>
-        public void Terminate()
+        public virtual void Terminate()
         {
             OnStop();
             hasStarted = false;
