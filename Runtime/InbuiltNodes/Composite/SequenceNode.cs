@@ -45,5 +45,9 @@ namespace CondorHalcon.BehaviourTree
             if (currentIndex >= children.Count) { return NodeState.Success; }
             return NodeState.Running;
         }
+        public override void DrawGizmos()
+        {
+            children[currentIndex].DrawGizmos();
+        }
     }
 }

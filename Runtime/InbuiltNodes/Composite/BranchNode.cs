@@ -39,5 +39,10 @@ namespace CondorHalcon.BehaviourTree
             }
             return NodeState.Failure;
         }
+        public override void DrawGizmos()
+        {
+            if (condition.value && children.Count > 0 && children[0] != null) { children[0].DrawGizmos(); }
+            else if (children.Count > 1 && children[1] != null) { children[1].DrawGizmos(); }
+        }
     }
 }

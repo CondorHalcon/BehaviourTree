@@ -63,5 +63,13 @@ namespace CondorHalcon.BehaviourTree
             if (childrenLeftToRun.Count == 0) { return NodeState.Success; }
             else { return NodeState.Running; }
         }
+
+        public override void DrawGizmos()
+        {
+            foreach (Node child in childrenLeftToRun)
+            {
+                child.DrawGizmos();
+            }
+        }
     }
 }
