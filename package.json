@@ -1,6 +1,6 @@
 {
     "name": "com.condorhalcon.behaviourtree",
-    "version": "0.4.2",
+    "version": "0.4.3",
     "displayName": "Behaviour Tree",
     "description": "This is a Unity C# behaviour tree package meant to be used with Unity MonoBehaviours",
     "keywords": [

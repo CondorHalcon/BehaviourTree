@@ -136,6 +136,10 @@ namespace CondorHalcon.BehaviourTree
             return value;
         }
 
+        public void Log()
+        {
+            Debug.Log($"Blackboard : {ToString(true)}");
+        }
         public override string ToString()
         {
             if (keys == null) { return "{ null }"; }
@@ -145,6 +149,17 @@ namespace CondorHalcon.BehaviourTree
                 s += $", {keys[i].ToString()}";
             }
             return s + " }";
+        }
+        public string ToString(bool pretty)
+        {
+            if (!pretty) { return ToString(); }
+            if (keys == null) { return "{ null }"; }
+            string s = "{\n    " + keys[0].ToString();
+            for (int i = 1; i < keys.Count; i++)
+            {
+                s += $",\n    {keys[i].ToString()}";
+            }
+            return s + "\n}";
         }
     }
 }
