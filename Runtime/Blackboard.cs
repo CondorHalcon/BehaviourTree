@@ -135,5 +135,16 @@ namespace CondorHalcon.BehaviourTree
             value = GetValue<T>(keyName);
             return value;
         }
+
+        public override string ToString()
+        {
+            if (keys == null) { return "{ null }"; }
+            string s =  "{ " + keys[0].ToString();
+            for (int i = 1; i < keys.Count; i++)
+            {
+                s += $", {keys[i].ToString()}";
+            }
+            return s + " }";
+        }
     }
 }

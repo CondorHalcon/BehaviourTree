@@ -44,6 +44,7 @@ namespace CondorHalcon.BehaviourTree.Samples.Ecology
         private void Start()
         {
             BehaviourTree();
+            Debug.Log(blackboard.ToString());
         }
         private void Update()
         {

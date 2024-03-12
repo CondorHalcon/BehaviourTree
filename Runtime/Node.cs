@@ -60,5 +60,10 @@ namespace CondorHalcon.BehaviourTree
         protected abstract NodeState OnUpdate();
 
         public virtual void DrawGizmos() { }
+
+        public override string ToString()
+        {
+            return $"{{{this.GetType().Name} : {state}, {hasStarted}}}";
+        }
     }
 }
