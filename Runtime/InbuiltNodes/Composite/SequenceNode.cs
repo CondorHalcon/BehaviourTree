@@ -47,7 +47,8 @@ namespace CondorHalcon.BehaviourTree
         }
         public override void DrawGizmos()
         {
-            children[currentIndex].DrawGizmos();
+            if (currentIndex < children.Count) { children[currentIndex].DrawGizmos(); }
+            else { children[children.Count - 1].DrawGizmos(); }
         }
     }
 }
