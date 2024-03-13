@@ -21,8 +21,8 @@ namespace CondorHalcon.BehaviourTree
         {
             if (!hasStarted)
             {
-                hasStarted = true;
                 OnStart();
+                hasStarted = true;
             }
 
             if (IsValid()) { state = OnUpdate(); }
@@ -38,8 +38,8 @@ namespace CondorHalcon.BehaviourTree
         /// </summary>
         public virtual void Terminate()
         {
-            OnStop();
             hasStarted = false;
+            OnStop();
         }
         internal virtual bool IsValid() => true;
 
